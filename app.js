@@ -4,9 +4,12 @@ const expressLayouts = require("express-ejs-layouts");
 const express = require("express");
 const app = express();
 const PORT = 4000;
+const dns = require("node:dns/promises");
 
 const connectDB = require("./server/config/db");
 connectDB();
+
+dns.setServers(["8.8.8.8"]);
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
