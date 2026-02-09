@@ -5,7 +5,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtSecret = process.env.JWT_SECRET;
-const adminLayout = "layouts/admin";
+const adminLayout = "../views/layouts/admin";
 
 /**
  * Check Login Middleware
@@ -22,7 +22,7 @@ const authMiddleware = (req, res, next) => {
     req.userId = decoded.userId;
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Unauthorized" });
+    res.status(401).json({ message: "Unauthorized" });
   }
 };
 
@@ -44,8 +44,8 @@ router.get("/admin", async (req, res) => {
 });
 
 /**
- * POST /login
- * Admin - Login Account
+ * POST /
+ * Admin - Check Login
  */
 router.post("/admin", async (req, res) => {
   try {
@@ -72,14 +72,14 @@ router.post("/admin", async (req, res) => {
 });
 
 /**
- * Get /dashboard
+ * GET /
  * Admin - Dashboard
  */
 router.get("/dashboard", authMiddleware, async (req, res) => {
   try {
     const locals = {
       title: "Dashboard",
-      description: "A blog template made with NodeJS and ExpressJS",
+      description: "A blog template made with NodeJS and ExpressJS, and EJS",
     };
 
     const data = await Post.find();
@@ -90,54 +90,14 @@ router.get("/dashboard", authMiddleware, async (req, res) => {
 });
 
 /**
- * POST /register
- * Admin - Register Account
- */
-router.post("/register", async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    try {
-      const user = await User.create({
-        username,
-        password: hashedPassword,
-      });
-      res.status(201).json({ message: "User created successfully", user });
-    } catch (error) {
-      if (error === 11000) {
-        return res.status(500).json({ message: "User already exists" });
-      } else {
-        return res.status(500).json({ message: "Something went wrong with the server" });
-      }
-    }
-  } catch {
-    console.log(error);
-  }
-});
-
-/**
- * GET /logout
- * Admin - Logout
- */
-router.get("/logout", authMiddleware, async (req, res) => {
-  try {
-    res.clearCookie("token");
-    res.redirect("/");
-  } catch (error) {
-    console.log(error);
-  }
-})
-
-/**
- * GET /add-post
+ * GET /
  * Admin - Create New Post
  */
 router.get("/add-post", authMiddleware, async (req, res) => {
   try {
     const locals = {
       title: "Create Post",
-      description: "A blog template made with NodeJS and ExpressJS",
+      description: "A blog template made with NodeJS and ExpressJS, and EJS",
     };
 
     const data = await Post.find();
@@ -148,13 +108,13 @@ router.get("/add-post", authMiddleware, async (req, res) => {
 });
 
 /**
- * POST /add-post
+ * POST /
  * Admin - Create New Post
  */
-router.post("/add-post/", authMiddleware, async (req, res) =>{
+router.post("/add-post", authMiddleware, async (req, res) => {
   try {
     console.log(req.body);
-    try{
+    try {
       const newPost = new Post({
         title: req.body.title,
         body: req.body.body,
@@ -170,14 +130,14 @@ router.post("/add-post/", authMiddleware, async (req, res) =>{
 });
 
 /**
- * GET /edit-post
+ * GET /
  * Admin - Update Post
  */
 router.get("/edit-post/:id", authMiddleware, async (req, res) => {
   try {
     const locals = {
       title: "Edit Post",
-      description: "A blog template made with NodeJS and ExpressJS",
+      description: "A blog template made with NodeJS and ExpressJS, and EJS",
     };
 
     const data = await Post.findOne({ _id: req.params.id });
@@ -188,30 +148,66 @@ router.get("/edit-post/:id", authMiddleware, async (req, res) => {
 });
 
 /**
- * PUT /edit-post
+ * PUT /
  * Admin - Edit Post
  */
-router.put("/edit-post/:id", authMiddleware, async (req, res) =>{
+router.put("/edit-post/:id", authMiddleware, async (req, res) => {
   try {
     await Post.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
       body: req.body.body,
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
     });
-    res.redirect(`/dashboard`);
+    res.redirect(`/edit-post/${req.params.id}`);
   } catch (error) {
     console.log(error);
   }
 });
 
 /**
- * DELETE /delete-post
+ * DELETE /
  * Admin - Delete Post
  */
 router.delete("/delete-post/:id", authMiddleware, async (req, res) => {
   try {
     await Post.deleteOne({ _id: req.params.id });
     res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+});
+/**
+ * GET /
+ * Admin - Logout
+ */
+router.get("/logout", authMiddleware, async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// POST - Admin - Register
+router.post("/register", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+      const user = await User.create({
+        username,
+        password: hashedPassword,
+      });
+      res.status(201).json({ message: "User created successfully", user });
+    } catch (error) {
+      if (error === 11000) {
+        res.status(500).json({ message: "Username already exists" });
+      } else {
+        res.status(500).json({ message: "Something went wrong" });
+      }
+    }
   } catch (error) {
     console.log(error);
   }

@@ -79,4 +79,19 @@ router.post("/search", async (req, res) => {
   }
 });
 
+// About Route
+// router.get("/about", (req, res) => res.render("admin"));
+router.get("/about", async (req, res) => {
+  try {
+    const locals = {
+      title: "About",
+      description: "A blog template made with NodeJS and ExpressJS",
+    };
+    res.render("about", { locals, currentRoute: "/about" });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
 module.exports = router;
