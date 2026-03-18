@@ -14,10 +14,10 @@
 
 body {
   font-family: "Poppins", sans-serif;
-  color: var(--black);
+  color: var(--gray-light);
   font-size: var(--font-size-base);
   background-color: #faf5ee;
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTeAmwN5Kb2JRPc6HZFGXuSlMqMpoRe-CBFDg&s");
+  background-image: url("https://t4.ftcdn.net/jpg/07/64/66/83/360_F_764668338_zTuPzMpPBvztfH91xKLywF4mPpNuk0BI.jpg");
   margin: 0;
   background-repeat: no-repeat;
   background-size: cover;
@@ -26,7 +26,7 @@ body {
 }
 
 a {
-  color: var(--black);
+  color: var(--gray-light);
 }
 h1 {
   font-size: var(--font-size-xl);
@@ -151,7 +151,7 @@ img {
   border: 2px solid transparent;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--black);
+  color: var(--slate);
 }
 
 .header__button button:hover {
@@ -194,6 +194,27 @@ img {
 .author__body {
   font-size: var(--font-size-md);
   margin: 5px 0 40px 0;
+}
+
+.author_image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  
+  border-radius: 20px;
+
+  -webkit-mask-image: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,1) 55%,
+    rgba(0,0,0,0.6) 75%,
+    rgba(0,0,0,0) 100%
+  );
+  mask-image: radial-gradient(
+    ellipse at center,
+    rgba(0,0,0,1) 55%,
+    rgba(0,0,0,0.6) 75%,
+    rgba(0,0,0,0) 100%
+  );
 }
 
 /* Home Article List */
@@ -274,7 +295,7 @@ img {
 .searchBar {
   visibility: hidden;
   transform: translateY(-100px);
-  background-color: var(--black);
+  background-color: var(--slate);
   padding: 4px 0;
   position: absolute;
   left: 0;
