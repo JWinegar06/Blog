@@ -16,13 +16,25 @@ body {
   font-family: "Poppins", sans-serif;
   color: var(--gray-light);
   font-size: var(--font-size-base);
-  background-color: #faf5ee;
-  background-image: url("https://t4.ftcdn.net/jpg/07/64/66/83/360_F_764668338_zTuPzMpPBvztfH91xKLywF4mPpNuk0BI.jpg");
+
   margin: 0;
+  min-height: 100vh;
+
+  /* Smoky blue background */
+  background:
+    radial-gradient(circle at top, rgba(90, 150, 200, 0.35), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(0, 170, 255, 0.18), transparent 45%),
+    linear-gradient(
+      180deg,
+      #3a5f78 0%,
+      #22384d 35%,
+      #142332 70%,
+      #0b1622 100%
+    );
+
+  background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center;
-
 }
 
 a {
@@ -196,25 +208,25 @@ img {
   margin: 5px 0 40px 0;
 }
 
-.author_image img {
-  display: block;
-  width: 100%;
-  height: auto;
-  
-  border-radius: 20px;
+.author_image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+}
 
-  -webkit-mask-image: radial-gradient(
-    ellipse at center,
-    rgba(0,0,0,1) 55%,
-    rgba(0,0,0,0.6) 75%,
-    rgba(0,0,0,0) 100%
-  );
-  mask-image: radial-gradient(
-    ellipse at center,
-    rgba(0,0,0,1) 55%,
-    rgba(0,0,0,0.6) 75%,
-    rgba(0,0,0,0) 100%
-  );
+.author_image img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 50%;
+
+    mask-image: radial-gradient(circle, black 70%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle, black 70%, transparent 100%);
+
+    box-shadow:
+        0 0 20px rgba(0, 200, 255, 0.4),
+        0 0 40px rgba(0, 200, 255, 0.25);
 }
 
 /* Home Article List */
